@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "498467215431",
+    "project_id": "hisab-calculator",
+    "storage_bucket": "hisab-calculator.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:498467215431:android:58e8370f68b07435723962",
+        "android_client_info": {
+          "package_name": "com.hisab"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "498467215431-8sth0gpbgopoq6ps48fl3t56qds6ud94.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrdPrN-cXa8JTOKZxgoif5wenQEYD6oCI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "498467215431-8sth0gpbgopoq6ps48fl3t56qds6ud94.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
