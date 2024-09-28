@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
-import { LoginScreen, HomeScreen, RegistrationScreen } from './src/screens'
+import { LoginScreen, HomeScreen, RegistrationScreen, ExpenseAddScreen } from './src/screens'
 import { db, collection, auth, createUserWithEmailAndPassword, addDoc, signInWithEmailAndPassword } from './src/firebase/config';
 import { doc, getDocFromCache, getDocs, query, where, } from "firebase/firestore";
 import {decode, encode} from 'base-64'
@@ -149,7 +149,10 @@ export default function App({ navigation }) {
     <NavigationContainer>
       <Stack.Navigator>
           {state.userData != null ? (
-            <Stack.Screen name="Home" component={HomeScreen} options={({ route }) => ({ title: 'Hi ' + state.userData.username })} />
+            <>
+              <Stack.Screen name="Home" component={HomeScreen} options={({ route }) => ({ title: 'Hi ' + state.userData.username })} />
+              <Stack.Screen name="Add Expense" component={ExpenseAddScreen} />
+            </>
         ) : (
           <>
             <Stack.Screen name="Login" component={LoginScreen} />
