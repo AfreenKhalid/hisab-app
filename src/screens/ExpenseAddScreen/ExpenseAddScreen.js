@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Switch, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View, Text, TextInput, Switch, TouchableOpacity, FlatList, StyleSheet, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styles from './styles';
 const userName = 'John Doe';
+
 
 export default function HomeScreen({ navigation }, props) {
     const [expenseTitle, setExpenseTitle] = useState('');
@@ -14,12 +15,19 @@ export default function HomeScreen({ navigation }, props) {
   const [evenSplit, setEvenSplit] = useState(true);
   const [distribution, setDistribution] = useState({});
 
+  const titleRef = useRef(null);
+  const amountRef = useRef(null);
+  const participantRef = useRef(null);
+
   // Add participant handler
   const addParticipant = () => {
     if (newParticipant && !participants.includes(newParticipant)) {
       setParticipants([...participants, newParticipant]);
       setNewParticipant('');
+      participantRef.current.focus();
     }
+    //show alert if name already added
+    //click on the name to edit
   };
 
   // Paid by toggle and contribution handler
@@ -57,42 +65,48 @@ export default function HomeScreen({ navigation }, props) {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <Text style={styles.label}>Expense Title</Text>
       <TextInput
+        ref={titleRef}
         style={styles.input}
         placeholder="Enter expense title"
         value={expenseTitle}
         onChangeText={setExpenseTitle}
+        autoFocus={true}
+        returnKeyType="next"
+        onSubmitEditing={() => amountRef.current.focus()}
       />
 
       <Text style={styles.label}>Amount</Text>
       <TextInput
+        ref={amountRef}
         style={styles.input}
         placeholder="Enter amount"
         keyboardType="numeric"
         value={amount}
         onChangeText={setAmount}
+        returnKeyType="next"
+        onSubmitEditing={() => participantRef.current.focus()}
       />
 
       <Text style={styles.label}>Participants</Text>
-      <FlatList
-        data={participants}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => <Text style={styles.participant}>{item}</Text>}
-      />
       <TextInput
+        ref={participantRef}
         style={styles.input}
         placeholder="Add participant"
         value={newParticipant}
         onChangeText={setNewParticipant}
+        returnKeyType="done"
+        onSubmitEditing={addParticipant}
+        onKeyPress={(key)=> {if(key=='Enter') addParticipant()}}
       />
       <TouchableOpacity style={styles.addButton} onPress={addParticipant}>
         <Ionicons name="add-circle-outline" size={24} color="green" />
         <Text style={styles.addButtonText}>Add Participant</Text>
       </TouchableOpacity>
-
-      <Text style={styles.label}>Paid by</Text>
+      <Text style={styles.helpText}>Select participants to add contribution amount</Text>
       {participants.map((participant) => (
         <View key={participant} style={styles.paidByContainer}>
           <Text>{participant}</Text>
@@ -128,7 +142,7 @@ export default function HomeScreen({ navigation }, props) {
               <TextInput
                 style={styles.contributionInput}
                 placeholder="Amount"
-                keyboardType="numeric"
+                keyboardType="decimal-pad"
                 value={distribution[participant] || ''}
                 onChangeText={(text) => setDistribution({ ...distribution, [participant]: text })}
               />
@@ -141,5 +155,6 @@ export default function HomeScreen({ navigation }, props) {
         <Text style={styles.submitButtonText}>Submit Expense</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 }
